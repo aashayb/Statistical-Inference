@@ -1,0 +1,58 @@
+---
+title: 'Course Project Part 2: Basic Inferential Data Analysis'
+author: "Aashay Binaykia"
+date: "12 June 2017"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+require(knitr)
+opts_chunk$set(echo = TRUE)
+```
+  
+```{r}
+require(datasets)
+require(ggplot2)
+data("ToothGrowth")
+```
+
+## Exploratory Analysis
+Investigating the ToothGrwoth data frame :
+```{r}
+str(ToothGrowth)
+```
+  
+
+## Summary
+Summarizing the Data:
+```{r}
+summary(ToothGrowth)
+```
+  
+## Hypothesis Testing 
+  
+### a) Hypothesis: Supplement does not have an affect on Tooth Growth:
+Our null hypothesis is that the mean of the tooth growth corresponding to each supplement is the same. We assume a t distribution for tooth Growth, and the Variance of both the factions of ToothGrowth to be the same:
+```{r}
+TOJ <- ToothGrowth[ToothGrowth$supp=="OJ",]$len
+TVC <- ToothGrowth[ToothGrowth$supp=="VC",]$len
+t.test(x = TOJ,y = TVC,var.equal = TRUE)$conf.int
+```
+  
+We see that 0 lies in the 95% confidence Interval, therfore **we fail to reject the hypothesis that a Supplement does not have an affect on Tooth Growth**
+
+### b) Hypothesis: Doses does not have an affect on Tooth Growth:
+Our null hypothesis is that the mean of the ooth growth corresponding to each dose is the same. The assumptions of this part is the same as in part (a). Here we shall take the two extreme doses, that is 0.5, and 2:
+```{r}
+Tp5 <- ToothGrowth[ToothGrowth$dose==0.5,]$len
+T2 <- ToothGrowth[ToothGrowth$dose==2,]$len
+t.test(x = Tp5,y = T2,var.equal = TRUE)$conf.int
+```
+  
+We see that 0 does not lie in the 95% confidence interval, thus **we reject the hypothesis that Doses does not have an affect on Tooth Growth**. 
+  
+  
+## Conclusion 
+  
+  * We fail to reject the hypothesis that a Supplement does not have an affect on Tooth Growth with 95% certainty.
+  * We reject the hypothesis that Doses does not have an affect on Tooth Growth with 95% certainty.
