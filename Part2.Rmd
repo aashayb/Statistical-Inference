@@ -22,6 +22,20 @@ Investigating the ToothGrwoth data frame :
 str(ToothGrowth)
 ```
   
+We shall draw boxplots to visually understand the data:
+```{r}
+
+## By Delivery Method:
+ggplot(ToothGrowth, aes(supp, len)) + geom_boxplot(aes(fill=supp)) +
+        labs(title = "Tooth lengths by delivery method",
+                x = "Delivery Method", y = "Tooth length in mm")
+
+## By Dose:
+ToothGrowth$dose<-as.factor(ToothGrowth$dose)
+ggplot(ToothGrowth, aes(dose, len)) + geom_boxplot(aes(fill=dose)) +
+        labs(title = "Tooth lengths per dose",
+                x = "Dose in mg per day", y = "Tooth length in mm")
+```
 
 ## Summary
 Summarizing the Data:
@@ -32,7 +46,11 @@ summary(ToothGrowth)
 ## Hypothesis Testing 
   
 ### a) Hypothesis: Supplement does not have an affect on Tooth Growth:
-Our null hypothesis is that the mean of the tooth growth corresponding to each supplement is the same. We assume a t distribution for tooth Growth, and the Variance of both the factions of ToothGrowth to be the same:
+Our null hypothesis is that the mean of the tooth growth corresponding to each supplement is the same. 
+  
+####Assumptions: 
+* A t distribution for tooth Growth, and
+* The Variance of both the factions of ToothGrowth to be the same:
 ```{r}
 TOJ <- ToothGrowth[ToothGrowth$supp=="OJ",]$len
 TVC <- ToothGrowth[ToothGrowth$supp=="VC",]$len
